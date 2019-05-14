@@ -1,0 +1,43 @@
+{
+	"name": "php-server",
+	"version": "0.0.0",
+	"description": "Start a PHP server",
+	"license": "MIT",
+	"repository": "sindresorhus/php-server",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"php",
+		"server",
+		"webserver",
+		"web-server",
+		"http",
+		"dev",
+		"development"
+	],
+	"dependencies": {
+		"bin-version-check": "^4.0.0",
+		"get-port": "^5.0.0",
+		"open": "^6.3.0"
+	},
+	"devDependencies": {
+		"@types/node": "^12.0.1",
+		"ava": "^1.4.1",
+		"got": "^9.6.0",
+		"tsd": "^0.7.3",
+		"xo": "^0.24.0"
+	}
+}
