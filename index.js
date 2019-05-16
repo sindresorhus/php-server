@@ -102,7 +102,7 @@ module.exports = async options => {
 
 	let pathname = '/';
 	if (typeof options.open === 'string') {
-		pathname = (options.open.indexOf('/') === 0 ? '' : '/') + options.open;
+		pathname += options.open.replace(/^\//, '');
 	}
 
 	// Check when the server is ready. Tried doing it by listening
