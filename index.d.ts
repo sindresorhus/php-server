@@ -1,3 +1,5 @@
+/// <reference types="node"/>
+
 declare namespace phpServer {
 	interface Options {
 		/**
