@@ -2,7 +2,7 @@
 
 > Start a [PHP server](https://php.net/manual/en/features.commandline.webserver.php)
 
-Uses the PHP built-in server, which is meant for development use, not for production.
+Uses PHP's built-in development web server (not for production use).
 
 The Node.js process is automatically kept alive as long as the PHP server is running.
 
@@ -106,7 +106,7 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 ##### binary
 
 Type: `string`<br>
-Default: `'php'`
+Default: `'php'` *(The one in your `$PATH`)*
 
 Path to the PHP binary.
 
