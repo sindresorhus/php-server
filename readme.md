@@ -1,4 +1,4 @@
-# php-server [![Build Status](https://travis-ci.com/sindresorhus/php-server.svg?branch=master)](https://travis-ci.com/sindresorhus/php-server)
+# php-server
 
 > Start a [PHP server](https://php.net/manual/en/features.commandline.webserver.php)
 
