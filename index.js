@@ -1,10 +1,10 @@
-'use strict';
-const path = require('path');
-const {spawn} = require('child_process');
-const http = require('http');
-const open = require('open');
-const binVersionCheck = require('bin-version-check');
-const getPort = require('get-port');
+import process from 'node:process';
+import path from 'node:path';
+import {spawn} from 'node:child_process';
+import http from 'node:http';
+import open from 'open';
+import binVersionCheck from 'bin-version-check';
+import getPort from 'get-port';
 
 const isServerRunning = (hostname, port, pathname) => new Promise((resolve, reject) => {
 	const retryDelay = 50;
@@ -18,9 +18,9 @@ const isServerRunning = (hostname, port, pathname) => new Promise((resolve, reje
 				method: 'HEAD',
 				hostname,
 				port,
-				path: pathname
+				path: pathname,
 			}, response => {
-				const statusCodeType = Number(response.statusCode.toString()[0]);
+				const statusCodeType = Number.parseInt(response.statusCode.toString()[0], 10);
 				if ([2, 3, 4].includes(statusCodeType)) {
 					resolve();
 					return;
@@ -46,7 +46,7 @@ const isServerRunning = (hostname, port, pathname) => new Promise((resolve, reje
 	checkServer();
 });
 
-module.exports = async options => {
+export default async function phpServer(options) {
 	options = {
 		port: 0,
 		hostname: '127.0.0.1',
@@ -55,7 +55,7 @@ module.exports = async options => {
 		env: {},
 		binary: 'php',
 		directives: {},
-		...options
+		...options,
 	};
 
 	if (options.port === 0) {
@@ -90,8 +90,8 @@ module.exports = async options => {
 	const subprocess = spawn(options.binary, spawnArguments, {
 		env: {
 			...process.env,
-			...options.env
-		}
+			...options.env,
+		},
 	});
 
 	subprocess.ref();
@@ -119,6 +119,6 @@ module.exports = async options => {
 		url,
 		stop() {
 			subprocess.kill();
-		}
+		},
 	};
-};
+}

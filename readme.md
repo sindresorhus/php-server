@@ -6,36 +6,31 @@ Uses PHP's built-in development web server (not for production use).
 
 The Node.js process is automatically kept alive as long as the PHP server is running.
 
-
 ## Install
 
+```sh
+npm install php-server
 ```
-$ npm install php-server
-```
-
 
 ## Usage
 
 ```js
-const phpServer = require('php-server');
+import phpServer from 'php-server';
 
-(async () => {
-	const server = await phpServer();
-	console.log(`PHP server running at ${server.url}`)
-})();
+const server = await phpServer();
+console.log(`PHP server running at ${server.url}`);
 ```
-
 
 ## API
 
-### phpServer([options])
+### phpServer(options?)
 
 Returns an object with the following properties:
 
 - `stdout` - The [`subprocess.stdout`](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout).
 - `stderr` - The [`subprocess.stderr`](https://nodejs.org/api/child_process.html#child_process_subprocess_stderr).
-- `url` - URL to the server.
-- `stop()` - Stop the server.
+- `url` - The URL to the server.
+- `stop()` - A method, which when called, stops the server.
 
 #### options
 
@@ -43,7 +38,7 @@ Type: `object`
 
 ##### port
 
-Type: `number`<br>
+Type: `number`\
 Default: `0`
 
 The port on which you want to access the server.
@@ -52,7 +47,7 @@ Specify `0` to use a random port.
 
 ##### hostname
 
-Type: `string`<br>
+Type: `string`\
 Default: `'127.0.0.1'` *(Usually the same as `localhost`)*
 
 The hostname the server will use.
@@ -61,14 +56,14 @@ Use `'0.0.0.0'` if you want it to be accessible from the outside.
 
 ##### base
 
-Type: `string`<br>
+Type: `string`\
 Default: `'.'`
 
 The directory the server will serve from.
 
 ##### open
 
-Type: `boolean | string`<br>
+Type: `boolean | string`\
 Default: `false`
 
 Open the server URL in the browser.
@@ -79,7 +74,7 @@ Can be one of the following:
 
 ##### env
 
-Type: `object`<br>
+Type: `object`\
 Default: `{}`
 
 Set environment variables for the PHP process.
@@ -105,33 +100,23 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 
 ##### binary
 
-Type: `string`<br>
+Type: `string`\
 Default: `'php'` *(The one in your `$PATH`)*
 
-Path to the PHP binary.
+The path to the PHP binary.
 
 Can be useful if you have multiple versions of PHP installed.
 
 ##### ini
 
-Type: `string`<br>
+Type: `string`\
 Default: The built-in `php.ini`
 
-Path to a custom [`php.ini` config file](https://php.net/manual/en/ini.php).
+A path to a custom [`php.ini` config file](https://php.net/manual/en/ini.php).
 
 ##### directives
 
-Type: `object`<br>
+Type: `object`\
 Default: `{}`
 
 Add custom [INI directives](https://php.net/manual/en/ini.list.php).
-
-
-## Related
-
-- [grunt-php](https://github.com/sindresorhus/grunt-php) - Grunt plugin that uses this package
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

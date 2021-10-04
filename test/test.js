@@ -1,6 +1,11 @@
+import process from 'node:process';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
 import test from 'ava';
 import got from 'got';
-import phpServer from '..';
+import phpServer from '../index.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 process.chdir(__dirname);
 
@@ -38,8 +43,8 @@ test('expose environment variables', async t => {
 	const server = await phpServer({
 		base: 'fixtures/env',
 		env: {
-			FOOBAR: 'foobar'
-		}
+			FOOBAR: 'foobar',
+		},
 	});
 	const {body} = await got(server.url);
 	t.is(body, 'foobar');
@@ -50,8 +55,8 @@ test('expose custom INI directive', async t => {
 	const server = await phpServer({
 		base: 'fixtures/directives',
 		directives: {
-			error_log: 'foobar' // eslint-disable-line camelcase
-		}
+			error_log: 'foobar', // eslint-disable-line camelcase
+		},
 	});
 	const {body} = await got(server.url);
 	t.is(body, 'foobar');
