@@ -1,6 +1,6 @@
 {
 	"name": "php-server",
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"description": "Start a PHP server",
 	"license": "MIT",
 	"repository": "sindresorhus/php-server",
