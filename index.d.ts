@@ -1,4 +1,4 @@
-export interface Options {
+export type Options = {
 	/**
 	The port on which you want to access the webserver.
 
@@ -76,9 +76,9 @@ export interface Options {
 	Add custom [INI directives](https://php.net/manual/en/ini.list.php).
 	*/
 	readonly directives?: Record<string, string>;
-}
+};
 
-export interface Server {
+export type Server = {
 	/**
 	The [`subprocess.stderr`](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout).
 	*/
@@ -98,7 +98,7 @@ export interface Server {
 	A method, which when called, stops the server.
 	*/
 	stop(): void;
-}
+};
 
 /**
 Start a [PHP server](https://php.net/manual/en/features.commandline.webserver.php)

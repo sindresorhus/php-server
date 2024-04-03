@@ -3,7 +3,7 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import http from 'node:http';
 import open from 'open';
-import binVersionCheck from 'bin-version-check';
+import binaryVersionCheck from 'binary-version-check';
 import getPort from 'get-port';
 
 const isServerRunning = (hostname, port, pathname) => new Promise((resolve, reject) => {
@@ -85,7 +85,7 @@ export default async function phpServer(options) {
 		spawnArguments.push(options.router);
 	}
 
-	await binVersionCheck(options.binary, '>=5.4');
+	await binaryVersionCheck(options.binary, '>=5.4');
 
 	const subprocess = spawn(options.binary, spawnArguments, {
 		env: {

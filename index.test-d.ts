@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import phpServer, {Server} from './index.js';
+import phpServer, {type Server} from './index.js';
 
 expectType<Promise<Server>>(phpServer());
 
