@@ -80,14 +80,14 @@ export type Options = {
 
 export type Server = {
 	/**
-	The [`subprocess.stderr`](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout).
+	The [`subprocess.stdout`](https://nodejs.org/api/child_process.html#child_process_subprocess_stdout).
 	*/
-	readonly stdout: NodeJS.WritableStream;
+	readonly stdout: NodeJS.ReadableStream;
 
 	/**
 	The [`subprocess.stderr`](https://nodejs.org/api/child_process.html#child_process_subprocess_stderr).
 	*/
-	readonly stderr: NodeJS.WritableStream;
+	readonly stderr: NodeJS.ReadableStream;
 
 	/**
 	The URL to the server.

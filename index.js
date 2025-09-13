@@ -112,6 +112,17 @@ export default async function phpServer(options) {
 		},
 	});
 
+	// Drain stdout/stderr to prevent the child process from blocking if nothing reads them.
+	// Users can still attach listeners on these streams as needed.
+	// See https://github.com/sindresorhus/php-server/issues/6
+	if (subprocess.stdout) {
+		subprocess.stdout.resume();
+	}
+
+	if (subprocess.stderr) {
+		subprocess.stderr.resume();
+	}
+
 	subprocess.ref();
 
 	process.on('exit', () => {
