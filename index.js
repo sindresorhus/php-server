@@ -1,49 +1,67 @@
 import process from 'node:process';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
-import http from 'node:http';
+import {setTimeout} from 'node:timers/promises';
 import open from 'open';
 import binaryVersionCheck from 'binary-version-check';
 import getPort from 'get-port';
 
 const isServerRunning = (hostname, port, pathname) => new Promise((resolve, reject) => {
-	const retryDelay = 50;
-	const maxRetries = 20; // Give up after 1 second
+	(async () => {
+		const retryDelay = 50;
+		const maxRetries = 20; // Give up after 1 second
+		let retryCount = 0;
 
-	let retryCount = 0;
+		const fetchErrorDetails = async statusCode => {
+			try {
+				const response = await fetch(`http://${hostname}:${port}${pathname}`);
+				const body = await response.text();
+				// Extract the error message from the HTML response
+				// PHP errors are wrapped in <b> tags: "<b>Fatal error</b>: ..."
+				const errorMatch = body.match(/<b>(Fatal error|Parse error|Warning|Notice)<\/b>:\s*([^<\n]+)/);
+				if (errorMatch) {
+					return `Server returned ${statusCode} error: ${errorMatch[1]}: ${errorMatch[2]}`;
+				}
 
-	const checkServer = () => {
-		setTimeout(() => {
-			http.request({
-				method: 'HEAD',
-				hostname,
-				port,
-				path: pathname,
-			}, response => {
-				const statusCodeType = Number.parseInt(response.statusCode.toString()[0], 10);
+				return `Server returned ${statusCode} error. Please check your PHP application for possible errors.`;
+			} catch {
+				return `Server returned ${statusCode} error. Could not fetch error details.`;
+			}
+		};
+
+		const checkServer = async () => {
+			try {
+				const response = await fetch(`http://${hostname}:${port}${pathname}`, {
+					method: 'HEAD',
+				});
+
+				const statusCodeType = Number.parseInt(response.status.toString()[0], 10);
 				if ([2, 3, 4].includes(statusCodeType)) {
 					resolve();
 					return;
 				}
 
 				if (statusCodeType === 5) {
-					reject(new Error('Server docroot returned 500-level response. Please check your configuration for possible errors.'));
+					const errorMessage = await fetchErrorDetails(response.status);
+					reject(new Error(errorMessage));
 					return;
 				}
 
-				checkServer();
-			}).on('error', error => {
+				await setTimeout(retryDelay);
+				await checkServer();
+			} catch (error) {
 				if (++retryCount > maxRetries) {
 					reject(new Error(`Could not start the PHP server: ${error.message}`));
 					return;
 				}
 
-				checkServer();
-			}).end();
-		}, retryDelay);
-	};
+				await setTimeout(retryDelay);
+				await checkServer();
+			}
+		};
 
-	checkServer();
+		await checkServer();
+	})();
 });
 
 export default async function phpServer(options) {
@@ -107,7 +125,12 @@ export default async function phpServer(options) {
 
 	// Check when the server is ready. Tried doing it by listening
 	// to the child process `data` event, but it's not triggered...
-	await isServerRunning(options.hostname, options.port, pathname);
+	try {
+		await isServerRunning(options.hostname, options.port, pathname);
+	} catch (error) {
+		subprocess.kill();
+		throw error;
+	}
 
 	if (options.open) {
 		await open(`${url}${pathname}`);

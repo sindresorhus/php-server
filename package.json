@@ -20,7 +20,7 @@
 		"node": ">=18"
 	},
 	"scripts": {
-		"test": "xo && ava && tsd"
+		"test": "xo && node --test test/test.js && tsd"
 	},
 	"files": [
 		"index.js",
@@ -42,12 +42,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.3",
-		"ava": "^6.1.2",
 		"got": "^14.2.1",
 		"tsd": "^0.31.0",
 		"xo": "^0.58.0"
-	},
-	"ava": {
-		"workerThreads": false
 	}
 }
