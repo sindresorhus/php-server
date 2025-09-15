@@ -130,8 +130,23 @@ export default async function phpServer(options) {
 	});
 
 	let pathname = '/';
+	let openUrl = url;
+
 	if (typeof options.open === 'string') {
-		pathname += options.open.replace(/^\//, '');
+		// Check if it's an absolute URL
+		try {
+			// eslint-disable-next-line no-new
+			new URL(options.open);
+			// It's an absolute URL, use it as-is
+			openUrl = options.open;
+			// Extract pathname for server check
+			const parsedUrl = new URL(options.open);
+			pathname = parsedUrl.pathname;
+		} catch {
+			// It's a relative path, append to base URL
+			pathname += options.open.replace(/^\//, '');
+			openUrl = `${url}${pathname}`;
+		}
 	}
 
 	// Check when the server is ready. Tried doing it by listening
@@ -144,7 +159,7 @@ export default async function phpServer(options) {
 	}
 
 	if (options.open) {
-		await open(`${url}${pathname}`);
+		await open(openUrl);
 	}
 
 	return {

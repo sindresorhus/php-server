@@ -28,8 +28,9 @@ export type Options = {
 	Open the server URL in the browser.
 
 	Can be one of the following:
-	- `true`: Opens the default server URL (`http://${hostname}${port}`).
-	- A relative URL: Opens that URL in the browser. Useful when testing pages that are not the default.
+	- `true`: Opens the default server URL (`http://${hostname}:${port}`).
+	- A relative path: Opens that path on the server (e.g., `'/about'` opens `http://${hostname}:${port}/about`).
+	- An absolute URL: Opens that exact URL (e.g., `'http://localhost:3000'`).
 
 	@default false
 	*/
