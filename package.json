@@ -17,7 +17,7 @@
 	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=18"
+		"node": ">=20"
 	},
 	"scripts": {
 		"test": "xo && node --test test/test.js && tsd"
@@ -38,12 +38,12 @@
 	"dependencies": {
 		"binary-version-check": "^6.1.0",
 		"get-port": "^7.1.0",
-		"open": "^10.1.0"
+		"open": "^10.2.0"
 	},
 	"devDependencies": {
-		"@types/node": "^20.12.3",
-		"got": "^14.2.1",
-		"tsd": "^0.31.0",
-		"xo": "^0.58.0"
+		"@types/node": "^24.5.0",
+		"got": "^14.4.8",
+		"tsd": "^0.33.0",
+		"xo": "^1.2.2"
 	}
 }
