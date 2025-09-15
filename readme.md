@@ -17,8 +17,21 @@ npm install php-server
 ```js
 import phpServer from 'php-server';
 
+// Basic usage
 const server = await phpServer();
 console.log(`PHP server running at ${server.url}`);
+
+// With custom configuration
+const server2 = await phpServer({
+	port: 8080,
+	hostname: 'localhost',
+	base: './public',
+	open: true, // Opens browser automatically
+});
+
+// Clean up when done
+server.stop();
+server2.stop();
 ```
 
 ## API
@@ -41,7 +54,7 @@ Type: `object`
 Type: `number`\
 Default: `0`
 
-The port on which you want to access the server.
+The port on which you want to access the webserver.
 
 Specify `0` to use a random port.
 
@@ -121,3 +134,14 @@ Type: `object`\
 Default: `{}`
 
 Add custom [INI directives](https://php.net/manual/en/ini.list.php).
+
+**Example:**
+
+```js
+const server = await phpServer({
+	directives: {
+		memory_limit: '256M',
+		max_execution_time: '60',
+	},
+});
+```

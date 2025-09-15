@@ -62,6 +62,8 @@ export type Options = {
 	/**
 	The path to the PHP binary.
 
+	Can be useful if you have multiple versions of PHP installed.
+
 	@default 'php'
 	*/
 	readonly binary?: string;
